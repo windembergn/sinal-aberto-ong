@@ -43,7 +43,7 @@
   --hero-superficie: rgba(255, 255, 255, 0.1);
   --hero-borda: rgba(255, 255, 255, 0.3);
   --rodape-fundo: #1A1A1A;
-  --rodape-texto: #E6E9EF;          /* 14,6:1 */
+  --rodape-texto: #E6E9EF;          /* 14,31:1 */
   --rodape-titulo: #FFFFFF;
   --rodape-divisoria: #4A5565;
   --fundo-modal: rgba(16, 24, 40, 0.6);
@@ -119,7 +119,7 @@
 }
 
 :root[data-tema="alto-contraste"] {
-  --cor-primaria: #FFE500;          /* 17,3:1 sobre preto */
+  --cor-primaria: #FFE500;          /* 16,46:1 sobre preto */
   --cor-primaria-escura: #FFE500;
   --cor-primaria-clara: #2B2B2B;
   --cor-secundaria: #FFE500;

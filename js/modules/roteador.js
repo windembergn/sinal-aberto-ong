@@ -60,7 +60,11 @@ function renderizar() {
     const alvo = secao ?? app.querySelector('h1');
     alvo?.setAttribute('tabindex', '-1');
     alvo?.focus({ preventScroll: Boolean(secao) });
-    anunciador.textContent = `Página carregada: ${view.titulo}`;
+    // aria-live só anuncia quando o texto muda: limpa e reescreve no ciclo seguinte,
+    // senão navegar para outra seção da mesma página não seria anunciado.
+    const mensagem = secao ? `${view.titulo}: seção ${secao.querySelector('h2')?.textContent ?? ''}` : `Página carregada: ${view.titulo}`;
+    anunciador.textContent = '';
+    setTimeout(() => { anunciador.textContent = mensagem; }, 50);
   }
   primeiraCarga = false;
 }

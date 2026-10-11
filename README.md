@@ -44,7 +44,7 @@ Projeto das Experiências Práticas I a IV da disciplina de Desenvolvimento Fron
 
 - **HTML5 semântico**, **CSS3** (variáveis, Grid, Flexbox) e **JavaScript** (módulos ES), sem framework.
 - **Chart.js 4.4.1**, carregado sob demanda pelo CDN jsDelivr.
-- **esbuild**, **sharp** e **SVGO** no build de produção.
+- **esbuild**, **sharp**, **SVGO** e **html-minifier-terser** no build de produção.
 - **node:test** para testes automatizados.
 - **GitHub Actions** e **GitHub Pages** para integração e deploy contínuos.
 
@@ -152,10 +152,12 @@ O build (`scripts/build.mjs`) gera `dist/`:
 
 | Recurso | Antes | Depois |
 |---|---|---|
-| JavaScript (15 módulos → `js/app.js`) | 53,2 KB | 34,6 KB |
-| CSS | 25,6 KB | 16,7 KB |
+| JavaScript (16 módulos → `js/app.js`) | 56,9 KB | 35,8 KB |
+| CSS | 32,4 KB | 21,5 KB |
+| HTML (`index.html`) | 4,0 KB | 3,1 KB |
 | PNG | 20,0 KB | 6,8 KB |
 | SVG | 5,3 KB | 4,2 KB |
+| **Total** | **131,9 KB** | **84,0 KB (−36%)** |
 
 O deploy é contínuo: todo merge na `main` dispara o workflow `deploy.yml`, que instala as dependências, roda os testes, gera o build e publica `dist/` no GitHub Pages. Se um teste falhar, nada é publicado.
 

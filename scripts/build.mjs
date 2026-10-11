@@ -3,12 +3,13 @@
 //   funciona aberto direto do disco (file://), onde o navegador bloqueia type="module".
 // - CSS: minificado.
 // - Imagens: PNG/WebP recomprimidos com sharp e SVG otimizado com SVGO.
-// - HTML: troca o <script type="module"> pelo bundle.
+// - HTML: troca o <script type="module"> pelo bundle e minifica (comentários e espaços).
 // Uso: npm run build
 
 import { build, transform } from 'esbuild';
 import sharp from 'sharp';
 import { optimize } from 'svgo';
+import { minify as minificarHtml } from 'html-minifier-terser';
 import { rm, mkdir, readFile, writeFile, readdir, copyFile, stat } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
@@ -68,14 +69,28 @@ for (const nome of await readdir('img')) {
   await registrar(`img/${nome}`, original.length, final.length);
 }
 
-// HTML: casca da SPA aponta para o bundle; os demais são copiados.
+// HTML: a casca da SPA passa a apontar para o bundle e todos os arquivos são minificados.
+// Atributos e aspas são mantidos (só espaços e comentários saem), para não arriscar
+// quebrar seletores do CSS/JS que dependem deles.
+const opcoesHtml = {
+  collapseWhitespace: true,
+  conservativeCollapse: true,
+  removeComments: true,
+  minifyJS: true,
+  minifyCSS: true,
+};
 for (const nome of await readdir('html')) {
-  let html = await readFile(join('html', nome), 'utf8');
-  html = html.replace(
+  const fonte = await readFile(join('html', nome), 'utf8');
+  const comBundle = fonte.replace(
     '<script type="module" src="../js/main.js"></script>',
     '<script src="../js/app.js" defer></script>',
   );
+  if (nome === 'index.html' && comBundle === fonte) {
+    throw new Error('build: não encontrei o <script type="module"> em html/index.html');
+  }
+  const html = await minificarHtml(comBundle, opcoesHtml);
   await writeFile(join(DIST, 'html', nome), html);
+  await registrar(`html/${nome}`, Buffer.byteLength(fonte), Buffer.byteLength(html));
 }
 await copyFile('index.html', join(DIST, 'index.html'));
 

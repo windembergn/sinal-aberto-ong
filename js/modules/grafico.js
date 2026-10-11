@@ -32,9 +32,18 @@ export function carregarChart() {
 // As cores vêm das variáveis do design system, não de valores fixos no JS.
 const corDoTema = (variavel) => getComputedStyle(document.documentElement).getPropertyValue(variavel).trim();
 
+// Cores das barras, do texto e da grade lidas do tema ativo. Todas com contraste
+// mínimo de 3:1 contra o fundo nos três temas (WCAG 1.4.11).
+const coresDoTema = () => ({
+  barras: [corDoTema('--cor-sucesso'), corDoTema('--cor-primaria'), corDoTema('--cor-aviso')],
+  texto: corDoTema('--cor-texto-suave'),
+  grade: corDoTema('--cor-borda'),
+});
+
 export async function criarGraficoTipos(canvas, lista) {
   const Chart = await carregarChart();
   const contagem = contarPorTipo(lista);
+  const cores = coresDoTema();
 
   return new Chart(canvas, {
     type: 'bar',
@@ -43,9 +52,8 @@ export async function criarGraficoTipos(canvas, lista) {
       datasets: [{
         label: 'Cadastros',
         data: Object.values(contagem),
-        // Cores com contraste mínimo de 3:1 contra o fundo branco (WCAG 1.4.11):
-        // o amarelo do tema (2,01:1) foi trocado pelo tom de aviso (5,93:1).
-        backgroundColor: [corDoTema('--cor-sucesso'), corDoTema('--cor-primaria'), corDoTema('--cor-aviso')],
+        // O amarelo do tema (2,01:1 no claro) foi trocado pelo tom de aviso (5,93:1).
+        backgroundColor: cores.barras,
         borderRadius: 6,
       }],
     },
@@ -54,9 +62,23 @@ export async function criarGraficoTipos(canvas, lista) {
       maintainAspectRatio: false,
       animation: matchMedia('(prefers-reduced-motion: reduce)').matches ? false : { duration: 400 },
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+      scales: {
+        x: { ticks: { color: cores.texto }, grid: { color: cores.grade } },
+        y: { beginAtZero: true, ticks: { precision: 0, color: cores.texto }, grid: { color: cores.grade } },
+      },
     },
   });
+}
+
+// Chamado quando o usuário troca de tema com o gráfico na tela.
+export function aplicarCoresDoTema(grafico) {
+  const cores = coresDoTema();
+  grafico.data.datasets[0].backgroundColor = cores.barras;
+  for (const eixo of ['x', 'y']) {
+    grafico.options.scales[eixo].ticks.color = cores.texto;
+    grafico.options.scales[eixo].grid.color = cores.grade;
+  }
+  grafico.update();
 }
 
 export function atualizarGraficoTipos(grafico, lista) {

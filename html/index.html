@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sinal Aberto — Tecnologia offline-first para jovens da periferia</title>
   <meta name="description" content="ONG Sinal Aberto: trilha de qualificação em tecnologia offline-first para jovens de periferia com acesso limitado a dados móveis.">
+  <!-- Aplica o tema salvo antes do CSS, para a página não abrir no tema errado -->
+  <script>try{var t=localStorage.getItem("sinal-aberto:tema");if(t)document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/style.css">
   <script type="module" src="../js/main.js"></script>
@@ -32,6 +34,15 @@
           </li>
           <li class="menu__item"><a class="menu__link" href="#/cadastro">Seja Doador ou Voluntário</a></li>
           <li class="menu__item"><a class="menu__link" href="#/cadastros">Cadastros salvos</a></li>
+          <li class="menu__item tema">
+            <label class="tema__rotulo" for="seletor-tema">Tema</label>
+            <select id="seletor-tema" class="tema__seletor">
+              <option value="sistema">Automático</option>
+              <option value="claro">Claro</option>
+              <option value="escuro">Escuro</option>
+              <option value="alto-contraste">Alto contraste</option>
+            </select>
+          </li>
         </ul>
       </nav>
     </div>

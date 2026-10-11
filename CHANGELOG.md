@@ -4,6 +4,8 @@ Todas as mudanças relevantes do projeto. O formato segue o [Keep a Changelog](h
 
 ## [Não lançado]
 
+## [1.1.0] — 2026-10-11
+
 ### Adicionado
 - Modos de cor Automático, Claro, Escuro e Alto contraste, com seletor no menu e escolha salva.
 - Teste automatizado de contraste WCAG AA para as cores dos três temas.

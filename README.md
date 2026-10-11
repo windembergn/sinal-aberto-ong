@@ -48,7 +48,8 @@ npm test
 │   │   ├── formulario.js     liga as regras ao DOM: feedback por campo e resumo de erros
 │   │   ├── armazenamento.js  localStorage: rascunho e cadastros
 │   │   ├── mascaras.js       máscaras de CPF, telefone e CEP
-│   │   └── menu.js           menu hambúrguer e marcação da rota atual
+│   │   ├── menu.js           menu hambúrguer e marcação da rota atual
+│   │   └── grafico.js        integração com Chart.js (carregada sob demanda)
 │   ├── views/     uma tela por arquivo (inicio, projetos, cadastro, cadastros, não encontrada)
 │   └── tests/     testes de validação, armazenamento e templates (node:test)
 └── package.json   script de testes
@@ -62,7 +63,8 @@ npm test
 - Validação de consistência: dígitos verificadores do CPF, idade mínima de 16 anos, celular com 9, horas obrigatórias só para voluntário
 - Feedback por campo (`aria-invalid` + mensagem) ao sair do campo, correção ao vivo e resumo de erros com links
 - localStorage: rascunho automático (sem CPF) e lista de cadastros com CPF mascarado; tolera navegador sem armazenamento
-- 16 testes automatizados com `node:test`
+- Integração com a biblioteca Chart.js (gráfico de cadastros por tipo), carregada sob demanda com `import()` dinâmico e com resumo em texto como alternativa
+- 18 testes automatizados com `node:test`
 
 ## Destaques técnicos — Experiência Prática II (CSS3)
 

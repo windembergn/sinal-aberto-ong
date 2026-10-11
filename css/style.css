@@ -776,6 +776,11 @@ fieldset .grade { gap: var(--esp-3) var(--esp-4); }
 .resumo-erros { margin: 0; padding-left: var(--esp-4); }
 .resumo-erros a { color: var(--cor-erro); font-weight: var(--peso-medio); }
 
+/* Gráfico do resumo de cadastros (Chart.js) */
+.grafico { margin: 0; }
+.grafico__area { position: relative; height: 260px; max-width: 640px; }
+.grafico figcaption { margin-top: var(--esp-2); font-weight: var(--peso-medio); }
+
 /* Estado vazio da lista de cadastros */
 .vazio {
   display: flex;

@@ -418,19 +418,29 @@ main { grid-area: conteudo; }
   font-weight: var(--peso-medio);
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--transicao), border-color var(--transicao), color var(--transicao);
+  transition: background-color var(--transicao), border-color var(--transicao),
+    color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
 }
 
+/* Estados: hover escurece e eleva, active "afunda", focus-visible ganha contorno,
+   disabled fica opaco e não reage. :not(:disabled) evita hover em botão bloqueado. */
+.botao:hover:not(:disabled) { box-shadow: var(--sombra-1); }
+.botao:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
+.botao:focus-visible { outline: 3px solid var(--cor-primaria); outline-offset: 3px; }
+
 .botao--primario { background: var(--cor-primaria); color: var(--cor-fundo); }
-.botao--primario:hover { background: var(--cor-primaria-escura); color: var(--cor-fundo); }
+.botao--primario:hover:not(:disabled) { background: var(--cor-primaria-escura); color: var(--cor-fundo); }
 
 .botao--secundario { background: var(--cor-secundaria); color: var(--cor-texto); }
-.botao--secundario:hover { background: var(--cor-fundo); border-color: var(--cor-secundaria); color: var(--cor-texto); }
+.botao--secundario:hover:not(:disabled) { background: var(--cor-fundo); border-color: var(--cor-secundaria); color: var(--cor-texto); }
 
 .botao--contorno { background: transparent; border-color: var(--cor-primaria); color: var(--cor-primaria); }
-.botao--contorno:hover { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); }
+.botao--contorno:hover:not(:disabled) { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); }
 
 .botao:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* No fundo azul do hero, o contorno de foco vira amarelo para continuar visível */
+.hero :focus-visible { outline-color: var(--cor-secundaria); }
 
 .grupo-botoes {
   display: flex;
@@ -455,6 +465,12 @@ main { grid-area: conteudo; }
 .cartao:hover {
   transform: translateY(-4px);
   box-shadow: var(--sombra-2);
+}
+
+/* Quem navega por teclado recebe o mesmo destaque ao focar o botão do cartão */
+.cartao:focus-within {
+  box-shadow: var(--sombra-2);
+  border-color: var(--cor-primaria);
 }
 
 .cartao__cabecalho {

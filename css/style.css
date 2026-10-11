@@ -338,6 +338,15 @@ main { grid-area: conteudo; }
   transform: translateY(0);
 }
 
+/* WCAG 1.4.13: conteúdo que aparece no hover/foco precisa poder ser dispensado.
+   Esc marca o item com data-submenu-fechado até o foco ou o mouse saírem dele. */
+@media (min-width: 768px) {
+  .menu__item[data-submenu-fechado] > .submenu {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .submenu .menu__link { font-weight: var(--peso-normal); }
 
 /* Navegação mobile: abaixo de 768px vira menu sanfona com botão hambúrguer.

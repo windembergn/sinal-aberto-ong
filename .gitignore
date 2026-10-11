@@ -1,2 +1,4 @@
 respostas-*.md
 capturas-atividade2/
+node_modules/
+dist/

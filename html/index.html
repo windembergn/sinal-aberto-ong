@@ -5,165 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sinal Aberto — Tecnologia offline-first para jovens da periferia</title>
   <meta name="description" content="ONG Sinal Aberto: trilha de qualificação em tecnologia offline-first para jovens de periferia com acesso limitado a dados móveis.">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/menu.js" defer></script>
+  <script type="module" src="../js/main.js"></script>
 </head>
 <body>
-  <a class="pular-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="pular-link" href="#app" data-pular>Pular para o conteúdo</a>
 
   <header class="cabecalho">
     <div class="container cabecalho__conteudo">
-      <a href="index.html" class="logo">Sinal Aberto</a>
+      <a href="#/inicio" class="logo">Sinal Aberto</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navegacao-principal">
         <span class="menu-toggle__icone" aria-hidden="true"></span>
         Menu
       </button>
       <nav class="navegacao" id="navegacao-principal" aria-label="Navegação principal">
         <ul class="menu">
-          <li class="menu__item"><a class="menu__link" href="index.html" aria-current="page">Início</a></li>
+          <li class="menu__item"><a class="menu__link" href="#/inicio">Início</a></li>
           <li class="menu__item">
-            <a class="menu__link" href="projetos.html">Projetos Sociais</a>
+            <a class="menu__link" href="#/projetos">Projetos Sociais</a>
             <ul class="submenu">
-              <li><a class="menu__link" href="projetos.html#frentes">Frentes de atuação</a></li>
-              <li><a class="menu__link" href="projetos.html#como-doar">Como doar</a></li>
-              <li><a class="menu__link" href="projetos.html#como-ser-voluntario">Como ser voluntário</a></li>
+              <li><a class="menu__link" href="#/projetos/frentes">Frentes de atuação</a></li>
+              <li><a class="menu__link" href="#/projetos/como-doar">Como doar</a></li>
+              <li><a class="menu__link" href="#/projetos/como-ser-voluntario">Como ser voluntário</a></li>
             </ul>
           </li>
-          <li class="menu__item"><a class="menu__link" href="cadastro.html">Seja Doador ou Voluntário</a></li>
+          <li class="menu__item"><a class="menu__link" href="#/cadastro">Seja Doador ou Voluntário</a></li>
+          <li class="menu__item"><a class="menu__link" href="#/cadastros">Cadastros salvos</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="conteudo">
-    <section id="hero" class="hero secao">
-      <div class="container grade hero__conteudo">
-        <div class="col-lg-7 col-xl-8">
-          <h1>Tecnologia offline-first para jovens da periferia</h1>
-          <p class="hero__texto">O Sinal Aberto é uma trilha de qualificação em programação que funciona sem depender de internet contínua, franquia de dados alta ou computador — porque a exclusão digital não é falta de vontade, é falta de projeto pensado para a realidade de quem tem pouco.</p>
-          <div class="grupo-botoes">
-            <a class="botao botao--secundario" href="cadastro.html">Quero ajudar</a>
-          </div>
+  <!-- Conteúdo trocado pelo roteador (js/modules/roteador.js) a cada mudança de rota -->
+  <main id="app" tabindex="-1">
+    <noscript>
+      <section class="secao">
+        <div class="container">
+          <h1>Ative o JavaScript</h1>
+          <p>O Sinal Aberto é uma aplicação de página única e precisa de JavaScript para exibir o conteúdo.</p>
         </div>
-        <div class="col-lg-5 col-xl-4">
-          <div class="hero__destaque">
-            <p><strong>Até 50 MB por mês</strong> é o consumo médio de dados de cada aluno.</p>
-            <p><strong>Sem computador:</strong> o código roda e é corrigido no próprio celular.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="sobre" class="secao">
-      <div class="container grade">
-        <div class="col-lg-6 col-xl-5">
-          <picture>
-            <source srcset="../img/equipe-sinal-aberto.svg" type="image/svg+xml">
-            <source srcset="../img/equipe-sinal-aberto.webp" type="image/webp">
-            <img
-              src="../img/equipe-sinal-aberto.png"
-              alt="Três mentores voluntários do Sinal Aberto sorrindo ao lado de um notebook, durante atendimento em um Ponto Sinal instalado numa biblioteca comunitária"
-              width="800"
-              height="500"
-              loading="lazy"
-            >
-          </picture>
-        </div>
-        <div class="col-lg-6 col-xl-7">
-          <h2>Quem somos</h2>
-          <p>Somos uma associação sem fins lucrativos que desenvolve tecnologia social para jovens de 16 a 24 anos das classes C, D e E, moradores de periferias urbanas e municípios de pequeno porte, sem computador próprio e com acesso à internet apenas pelo celular.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="desafio" class="secao secao--alt">
-      <div class="container">
-        <h2>O desafio que enfrentamos</h2>
-        <p class="secao__intro">A desigualdade digital no Brasil não é mais ausência de conexão: é conectividade sem autonomia. Atuamos sobre três camadas do problema.</p>
-        <div class="grade">
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Acesso material</h3>
-            <p>Conexão intermitente, aparelho de entrada e franquia de dados limitada.</p>
-          </div>
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Habilidades digitais</h3>
-            <p>Domínio do consumo de conteúdo, mas pouca prática de produção e raciocínio computacional.</p>
-          </div>
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Retorno econômico</h3>
-            <p>Mesmo acesso, benefícios muito diferentes conforme o capital cultural e a rede de apoio do jovem.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="solucao" class="secao">
-      <div class="container">
-        <h2>Como funciona o Sinal Aberto</h2>
-        <p class="secao__intro">Um aplicativo leve, offline-first, com camadas que garantem estudo mesmo sem sinal.</p>
-        <div class="grade">
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Conteúdo empacotado</h3>
-            <p>Módulos de texto e código baixados de uma vez, com peso declarado antes do download.</p>
-          </div>
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Execução local</h3>
-            <p>O código roda e é corrigido no próprio celular, sem depender de servidor.</p>
-          </div>
-          <div class="cartao col-md-4">
-            <h3 class="cartao__titulo">Mediação assíncrona</h3>
-            <p>Dúvidas enfileiradas offline e respondidas por mentores voluntários quando há rede.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="impacto" class="secao secao--alt">
-      <div class="container">
-        <h2>Nosso impacto em números</h2>
-        <ul class="grade lista-limpa">
-          <li class="cartao cartao--destaque col-sm-6 col-md-4">
-            <span class="cartao__numero">30%</span>
-            <p>Meta de conclusão da trilha entre jovens de franquia limitada</p>
-          </li>
-          <li class="cartao cartao--destaque col-sm-6 col-md-4">
-            <span class="cartao__numero">50 MB</span>
-            <p>Consumo médio de dados por aluno ao mês</p>
-          </li>
-          <li class="cartao cartao--destaque col-sm-6 col-md-4">
-            <span class="cartao__numero">90%</span>
-            <p>Dos concluintes com portfólio público verificável</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="participe" class="secao">
-      <div class="container grade">
-        <div class="col-lg-8">
-          <h2>Como você pode ajudar</h2>
-          <p>Doadores financiam Pontos Sinal e bolsas de mentoria. Voluntários atuam como mentores assíncronos. Cadastre-se e faça parte dessa rede.</p>
-        </div>
-        <div class="col-lg-4">
-          <div class="grupo-botoes">
-            <a class="botao botao--primario" href="cadastro.html">Fazer cadastro</a>
-            <a class="botao botao--contorno" href="projetos.html">Ver projetos</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contato" class="secao secao--alt">
-      <div class="container">
-        <h2>Fale com a gente</h2>
-        <address class="grade">
-          <p class="col-sm-6 col-md-4"><strong>E-mail</strong><br><a href="mailto:contato@sinalaberto.org.br">contato@sinalaberto.org.br</a></p>
-          <p class="col-sm-6 col-md-4"><strong>Telefone/WhatsApp</strong><br><a href="tel:+5541999990000">(41) 99999-0000</a></p>
-          <p class="col-sm-6 col-md-4"><strong>Endereço</strong><br>Rua das Palmeiras, 120 — Curitiba, PR</p>
-        </address>
-      </div>
-    </section>
+      </section>
+    </noscript>
   </main>
+
+  <!-- Anuncia a troca de página para leitores de tela -->
+  <div id="anuncio-rota" class="visualmente-oculto" aria-live="polite"></div>
 
   <footer class="rodape">
     <div class="container">
@@ -175,9 +62,10 @@
         <nav class="col-sm-6" aria-label="Rodapé">
           <h2>Navegação</h2>
           <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="projetos.html">Projetos Sociais</a></li>
-            <li><a href="cadastro.html">Seja Doador ou Voluntário</a></li>
+            <li><a href="#/inicio">Início</a></li>
+            <li><a href="#/projetos">Projetos Sociais</a></li>
+            <li><a href="#/cadastro">Seja Doador ou Voluntário</a></li>
+            <li><a href="#/cadastros">Cadastros salvos</a></li>
           </ul>
         </nav>
       </div>

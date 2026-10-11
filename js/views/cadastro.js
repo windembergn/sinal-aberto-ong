@@ -32,7 +32,7 @@ export const cadastro = {
     <section id="form-cadastro" class="secao">
       <div class="container">
         <h2>Formulário de cadastro</h2>
-        <div id="aviso-rascunho"></div>
+        <div id="aviso-rascunho" role="status"></div>
         <div class="alerta alerta--erro" id="resumo-erros" role="alert" tabindex="-1" hidden></div>
 
         <form class="formulario" id="formulario-cadastro" novalidate>

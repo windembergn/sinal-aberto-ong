@@ -46,7 +46,7 @@ export const cadastros = {
         <div class="container">
           <h1 tabindex="-1">Cadastros salvos</h1>
           <p class="secao__intro">Cadastros enviados por este navegador e guardados no localStorage. Nesta versão de demonstração, nada é enviado a um servidor.</p>
-          <p><strong id="contagem-cadastros">${contagem(lista.length)}</strong></p>
+          <p role="status"><strong id="contagem-cadastros">${contagem(lista.length)}</strong></p>
         </div>
       </section>
       <section class="secao" aria-labelledby="titulo-resumo" id="secao-grafico" ${lista.length ? '' : 'hidden'}>

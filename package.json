@@ -1,0 +1,9 @@
+{
+  "name": "sinal-aberto-ong",
+  "private": true,
+  "description": "Plataforma web da ONG Sinal Aberto",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"js/tests/*.test.js\""
+  }
+}

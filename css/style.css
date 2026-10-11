@@ -437,6 +437,10 @@ main { grid-area: conteudo; }
 .botao--contorno { background: transparent; border-color: var(--cor-primaria); color: var(--cor-primaria); }
 .botao--contorno:hover:not(:disabled) { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); }
 
+/* Ação destrutiva (excluir cadastro) */
+.botao--perigo { background: var(--cor-erro); color: var(--cor-fundo); }
+.botao--perigo:hover:not(:disabled) { background: #8C1D17; color: var(--cor-fundo); }
+
 .botao:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* No fundo azul do hero, o contorno de foco vira amarelo para continuar visível */
@@ -715,19 +719,22 @@ fieldset .grade { gap: var(--esp-3) var(--esp-4); }
 
 /* 5. FEEDBACK -------------------------------------------------------------- */
 
-/* Validação: :user-invalid e :user-valid só reagem depois que o usuário interage */
-.campo input:user-invalid,
-.campo select:user-invalid,
-.campo textarea:user-invalid {
+/* Validação: as classes são aplicadas pelo JavaScript (js/modules/formulario.js)
+   depois que o campo perde o foco ou no envio, junto com aria-invalid. */
+.campo--erro input:not([type="radio"], [type="checkbox"]),
+.campo--erro select,
+.campo--erro textarea {
   border-color: var(--cor-erro);
   border-width: 2px;
   background: var(--cor-erro-clara);
 }
 
-.campo input:user-valid,
-.campo select:user-valid {
+.campo--ok input:not([type="radio"], [type="checkbox"]),
+.campo--ok select {
   border-color: var(--cor-sucesso);
 }
+
+.campo--erro .opcao { border-color: var(--cor-erro); }
 
 .campo__erro {
   display: none;
@@ -741,7 +748,7 @@ fieldset .grade { gap: var(--esp-3) var(--esp-4); }
 /* Ícone + texto: o erro não depende só da cor (WCAG 1.4.1) */
 .campo__erro::before { content: "⚠"; }
 
-.campo:has(:user-invalid) .campo__erro { display: flex; }
+.campo--erro .campo__erro { display: flex; }
 
 /* Alertas */
 .alerta {
@@ -759,8 +766,28 @@ fieldset .grade { gap: var(--esp-3) var(--esp-4); }
 .alerta--sucesso { background: var(--cor-sucesso-clara); color: var(--cor-sucesso); }
 .alerta--erro { background: var(--cor-erro-clara); color: var(--cor-erro); }
 
-.alerta--erro[hidden] { display: none; }
-.alerta + .formulario { margin-top: var(--esp-4); }
+.alerta + .formulario,
+.alerta + .alerta { margin-top: var(--esp-4); }
+#aviso-rascunho:not(:empty) { margin-bottom: var(--esp-4); }
+
+.alerta__conteudo { display: flex; flex-direction: column; gap: var(--esp-2); align-items: flex-start; }
+
+/* Resumo de erros: cada item é um link que leva ao campo */
+.resumo-erros { margin: 0; padding-left: var(--esp-4); }
+.resumo-erros a { color: var(--cor-erro); font-weight: var(--peso-medio); }
+
+/* Estado vazio da lista de cadastros */
+.vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding: var(--esp-5);
+  border: 2px dashed var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+.vazio p { margin: 0; }
 
 /* Barra de progresso da meta de doação */
 .progresso { display: flex; flex-direction: column; gap: var(--esp-1); }
@@ -838,6 +865,22 @@ fieldset .grade { gap: var(--esp-3) var(--esp-4); }
 @keyframes girar { to { transform: rotate(360deg); } }
 
 /* 6. UTILITÁRIOS ----------------------------------------------------------- */
+/* Garante que [hidden] vença classes com display (ex.: .campo { display: flex }) */
+[hidden] { display: none !important; }
+
+/* Esconde da tela, mas mantém para leitores de tela */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Alvos de foco programático (títulos e <main> após trocar de rota) não ganham contorno */
+[tabindex="-1"]:focus { outline: none; }
+
 .lista-limpa { list-style: none; margin: 0; padding: 0; }
 
 /* Quem pede menos movimento no sistema recebe a interface sem animações */

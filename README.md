@@ -1,85 +1,193 @@
 # Sinal Aberto — Plataforma web para ONG
 
-Projeto das Experiências Práticas I (estrutura HTML), II (estilização CSS3) e III (interatividade com JavaScript) da disciplina de Desenvolvimento Front-end (Engenharia de Software — Positivo).
+[![CI](https://github.com/windembergn/sinal-aberto-ong/actions/workflows/ci.yml/badge.svg)](https://github.com/windembergn/sinal-aberto-ong/actions/workflows/ci.yml)
+[![Deploy](https://github.com/windembergn/sinal-aberto-ong/actions/workflows/deploy.yml/badge.svg)](https://github.com/windembergn/sinal-aberto-ong/actions/workflows/deploy.yml)
 
-O Sinal Aberto é uma ONG fictícia que oferece uma trilha de qualificação em tecnologia offline-first para jovens de periferia com acesso limitado a dados móveis.
+Aplicação de página única (SPA) da ONG fictícia **Sinal Aberto**, que oferece uma trilha de qualificação em tecnologia offline-first para jovens de periferia com acesso limitado a dados móveis. A plataforma apresenta a organização e os projetos sociais e cadastra doadores e voluntários.
 
-**Site:** https://windembergn.github.io/sinal-aberto-ong/
+**Produção:** https://windembergn.github.io/sinal-aberto-ong/
 
-## Como rodar
+Projeto das Experiências Práticas I a IV da disciplina de Desenvolvimento Front-end (Engenharia de Software — Positivo).
 
-A aplicação usa módulos ES (`<script type="module">`), que o navegador não carrega por `file://`. Sirva a pasta por HTTP:
+---
+
+## Sumário
+
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#tecnologias)
+- [Instalação](#instalação)
+- [Utilização](#utilização)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Testes e qualidade](#testes-e-qualidade)
+- [Acessibilidade](#acessibilidade)
+- [Build e deploy](#build-e-deploy)
+- [Manutenção](#manutenção)
+- [Fluxo de trabalho (GitFlow)](#fluxo-de-trabalho-gitflow)
+- [Histórico do projeto](#histórico-do-projeto)
+
+## Funcionalidades
+
+| Rota | Tela |
+|---|---|
+| `#/inicio` | Apresentação institucional, desafio, solução, impacto e contato |
+| `#/projetos` | Frentes de atuação, como doar, como ser voluntário e perguntas frequentes. `#/projetos/como-doar` rola até a seção |
+| `#/cadastro` | Formulário de doadores e voluntários com validação em tempo real e rascunho automático. `#/cadastro/doador` e `#/cadastro/voluntario` já marcam a opção |
+| `#/cadastros` | Cadastros salvos no navegador, gráfico por tipo de participação e exclusão com confirmação |
+
+- Navegação sem recarregar a página, com histórico do navegador funcionando (voltar/avançar).
+- Validação de consistência: dígitos verificadores do CPF, idade mínima de 16 anos, celular com 9 e horas semanais obrigatórias só para voluntários.
+- Dados persistidos no `localStorage`; o CPF nunca é salvo no rascunho e fica mascarado nos cadastros.
+- Layout responsivo de 320px a monitores panorâmicos, com menu hambúrguer no celular.
+
+## Tecnologias
+
+- **HTML5 semântico**, **CSS3** (variáveis, Grid, Flexbox) e **JavaScript** (módulos ES), sem framework.
+- **Chart.js 4.4.1**, carregado sob demanda pelo CDN jsDelivr.
+- **esbuild**, **sharp** e **SVGO** no build de produção.
+- **node:test** para testes automatizados.
+- **GitHub Actions** e **GitHub Pages** para integração e deploy contínuos.
+
+## Instalação
+
+Pré-requisitos: [Node.js](https://nodejs.org/) 20 ou superior e Git.
 
 ```bash
-npx serve .            # ou: python -m http.server
+git clone https://github.com/windembergn/sinal-aberto-ong.git
+cd sinal-aberto-ong
+npm install
+```
+
+O `npm install` instala apenas as ferramentas de build (`devDependencies`); o site em si não tem dependências de execução.
+
+## Utilização
+
+### Desenvolvimento
+
+O código-fonte usa módulos ES (`<script type="module">`), que o navegador só carrega por HTTP. Sirva a pasta raiz:
+
+```bash
+npx serve .
 # abra http://localhost:3000/html/index.html
 ```
 
-Testes automatizados (Node 20+):
+As alterações em `html/`, `css/` e `js/` aparecem ao recarregar a página, sem precisar de build.
+
+### Versão de produção
+
+```bash
+npm run build     # gera dist/
+npm run preview   # serve dist/ em http://localhost:3000
+```
+
+A versão em `dist/` também pode ser aberta com dois cliques em `dist/html/index.html`, porque o build transforma os módulos em um único script comum.
+
+### Scripts
+
+| Comando | O que faz |
+|---|---|
+| `npm test` | Roda os 18 testes automatizados |
+| `npm run build` | Gera a versão otimizada em `dist/` e imprime o relatório de tamanhos |
+| `npm run preview` | Serve `dist/` localmente |
+
+## Estrutura do projeto
+
+```
+├── .github/
+│   ├── workflows/ci.yml       testes e build em todo push/PR para develop e main
+│   ├── workflows/deploy.yml   build e publicação no GitHub Pages a cada push na main
+│   └── pull_request_template.md
+├── html/
+│   ├── index.html             casca da SPA (cabeçalho, <main id="app">, rodapé)
+│   └── projetos.html, cadastro.html   redirecionam para as rotas novas
+├── css/style.css              design system, grid de 12 colunas, componentes e estados
+├── img/                       imagem institucional (SVG, WebP, PNG) e favicon
+├── js/
+│   ├── main.js                ponto de entrada: registra rotas e inicia menu e roteador
+│   ├── modules/               uma área de funcionalidade por arquivo
+│   │   ├── roteador.js        navegação por hash, título, foco e anúncio de rota
+│   │   ├── templates.js       componentes reutilizáveis e escape de HTML (anti-XSS)
+│   │   ├── dados.js           conteúdo da ONG (projetos, FAQ, impacto)
+│   │   ├── validacao.js       regras puras de validação
+│   │   ├── formulario.js      liga as regras ao DOM (feedback e resumo de erros)
+│   │   ├── armazenamento.js   localStorage: rascunho e cadastros
+│   │   ├── grafico.js         integração com Chart.js
+│   │   ├── mascaras.js        máscaras de CPF, telefone e CEP
+│   │   └── menu.js            menu hambúrguer, submenu e rota atual
+│   ├── views/                 uma tela por arquivo: { titulo, render(), montar() }
+│   └── tests/                 testes de validação, armazenamento, templates e gráfico
+├── scripts/build.mjs          build de produção
+├── CHANGELOG.md               histórico de versões
+└── CONTRIBUTING.md            GitFlow, padrão de commits e checklist de PR
+```
+
+## Testes e qualidade
 
 ```bash
 npm test
 ```
 
-## Rotas da SPA
+18 testes com `node:test` cobrem as partes sem DOM: validação (CPF real e falso, idade no limite, regra cruzada das horas), armazenamento com um `localStorage` falso (incluindo armazenamento bloqueado), escape de HTML nos templates e contagem do gráfico.
 
-| Rota | Tela |
+Verificações feitas na versão 1.0.0:
+
+- **Lighthouse (mobile):** 100 em desempenho, acessibilidade, boas práticas e SEO nas rotas início, projetos e cadastro; 99 em desempenho em cadastros (Chart.js). CLS 0.
+- **W3C:** HTML estático e HTML gerado pelo JavaScript em cada rota sem erros nem avisos no Nu Html Checker; CSS sem erros no CSS Validator.
+- **npm audit:** 0 vulnerabilidades.
+
+## Acessibilidade
+
+Meta: **WCAG 2.1 nível AA**.
+
+- **axe-core 4.10:** 0 violações em 8 estados (todas as rotas, formulário com erros, modal de sucesso e menu mobile aberto).
+- **Teclado:** todo o site funciona com Tab, Shift+Tab, Enter e Esc; link "Pular para o conteúdo"; foco sempre visível; Esc fecha o submenu e o menu mobile.
+- **Leitores de tela:** a cada troca de rota, o título da página muda, o foco vai para o `h1` e uma região `aria-live` anuncia a página; erros ligados aos campos por `aria-describedby` e `aria-invalid`; mensagens de status com `role="status"`.
+- **Visual:** contraste medido de todas as cores (texto ≥ 4,5:1, componentes ≥ 3:1); erros com ícone e texto, não só cor; sem rolagem horizontal em 320px; respeito a `prefers-reduced-motion`.
+
+## Build e deploy
+
+O build (`scripts/build.mjs`) gera `dist/`:
+
+| Recurso | Antes | Depois |
+|---|---|---|
+| JavaScript (15 módulos → `js/app.js`) | 53,2 KB | 34,6 KB |
+| CSS | 25,6 KB | 16,7 KB |
+| PNG | 20,0 KB | 6,8 KB |
+| SVG | 5,3 KB | 4,2 KB |
+
+O deploy é contínuo: todo merge na `main` dispara o workflow `deploy.yml`, que instala as dependências, roda os testes, gera o build e publica `dist/` no GitHub Pages. Se um teste falhar, nada é publicado.
+
+## Manutenção
+
+- **Alterar textos da ONG** (projetos, FAQ, números de impacto): edite `js/modules/dados.js`. As telas são geradas a partir desses dados.
+- **Nova tela:** crie `js/views/minha-tela.js` exportando `{ titulo, render(), montar() }` e registre a rota em `js/main.js`.
+- **Nova regra de validação:** adicione uma função em `regras` (`js/modules/validacao.js`) e um teste em `js/tests/validacao.test.js`.
+- **Cores, tipografia e espaçamentos:** altere as variáveis do `:root` em `css/style.css` e confira o contraste de qualquer cor nova (mínimo 4,5:1 para texto).
+- **Dependências:** rode `npm audit` periodicamente e mantenha as versões fixadas no `package.json`.
+- **Limpar dados de teste no navegador:** DevTools → Application → Local Storage → chaves `sinal-aberto:*`.
+
+## Fluxo de trabalho (GitFlow)
+
+| Branch | Uso |
 |---|---|
-| `#/inicio` | Apresentação institucional, desafio, solução, impacto e contato |
-| `#/projetos` | Frentes de atuação, como doar, como ser voluntário e perguntas frequentes (`#/projetos/como-doar` rola até a seção) |
-| `#/cadastro` | Formulário de doadores e voluntários (`#/cadastro/doador` e `#/cadastro/voluntario` já marcam a opção) |
-| `#/cadastros` | Cadastros salvos no localStorage, com exclusão confirmada |
+| `main` | Produção. Só recebe merges de `release/*` e `hotfix/*`; cada merge gera deploy |
+| `develop` | Integração das funcionalidades prontas |
+| `feature/*` | Uma funcionalidade por branch, criada a partir de `develop` |
+| `release/*` | Preparação de versão (número, CHANGELOG), de `develop` para `main` |
+| `hotfix/*` | Correção urgente em produção, a partir da `main` |
 
-`html/projetos.html` e `html/cadastro.html` redirecionam para as rotas novas, para não quebrar links antigos.
+Commits seguem o padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/). Detalhes em [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Estrutura de pastas
+## Histórico do projeto
 
-```
-├── html/          index.html (casca da SPA) e redirecionamentos das páginas antigas
-├── css/           style.css (design system, grid, componentes e feedback)
-├── img/           imagem institucional em SVG, WebP e PNG
-├── js/
-│   ├── main.js    ponto de entrada: registra as rotas e inicia menu e roteador
-│   ├── modules/   uma área de funcionalidade por arquivo
-│   │   ├── roteador.js       navegação por hash, título, foco e anúncio de rota
-│   │   ├── templates.js      componentes reutilizáveis (cartões, campos, alertas) e escape de HTML
-│   │   ├── dados.js          conteúdo da ONG (projetos, FAQ, impacto)
-│   │   ├── validacao.js      regras puras de validação (CPF, idade, regras cruzadas)
-│   │   ├── formulario.js     liga as regras ao DOM: feedback por campo e resumo de erros
-│   │   ├── armazenamento.js  localStorage: rascunho e cadastros
-│   │   ├── mascaras.js       máscaras de CPF, telefone e CEP
-│   │   ├── menu.js           menu hambúrguer e marcação da rota atual
-│   │   └── grafico.js        integração com Chart.js (carregada sob demanda)
-│   ├── views/     uma tela por arquivo (inicio, projetos, cadastro, cadastros, não encontrada)
-│   └── tests/     testes de validação, armazenamento e templates (node:test)
-└── package.json   script de testes
-```
+| Versão | Experiência prática | Entrega |
+|---|---|---|
+| 0.1.0 | I — HTML | Estrutura semântica, formulário com validação nativa e imagem em três formatos |
+| 0.2.0 | II — CSS3 | Design system, grid de 12 colunas, Flexbox, menu responsivo e componentes de feedback |
+| 0.3.0 | III — JavaScript | SPA, templates, validação de consistência, localStorage, Chart.js e testes |
+| 1.0.0 | IV — Produção | GitFlow, acessibilidade WCAG 2.1 AA, build otimizado e deploy contínuo |
 
-## Destaques técnicos — Experiência Prática III (JavaScript)
+Veja o [CHANGELOG](CHANGELOG.md) para o detalhamento de cada versão.
 
-- SPA com roteamento por hash, compatível com hospedagem estática (GitHub Pages)
-- Templates em template literals gerados a partir de dados; todo conteúdo dinâmico passa por `escapar()` contra XSS
-- Acessibilidade na troca de rota: `document.title` atualizado, foco no `h1`, anúncio em `aria-live` e `aria-current` no menu
-- Validação de consistência: dígitos verificadores do CPF, idade mínima de 16 anos, celular com 9, horas obrigatórias só para voluntário
-- Feedback por campo (`aria-invalid` + mensagem) ao sair do campo, correção ao vivo e resumo de erros com links
-- localStorage: rascunho automático (sem CPF) e lista de cadastros com CPF mascarado; tolera navegador sem armazenamento
-- Integração com a biblioteca Chart.js (gráfico de cadastros por tipo), carregada sob demanda com `import()` dinâmico e com resumo em texto como alternativa
-- 18 testes automatizados com `node:test`
-
-## Destaques técnicos — Experiência Prática II (CSS3)
-
-- Design system em variáveis CSS: 16 cores com contraste medido (WCAG AA), 5 níveis tipográficos em escala 1,25 e espaçamentos modulares de base 8px
-- Grid de 12 colunas mobile-first com 5 breakpoints (576, 768, 1024, 1280 e 1440px) e macro layout com grid-template-areas
-- Flexbox nos componentes internos: cabeçalho, menu, cartões, botões, opções do formulário e rodapé
-- Menu responsivo: submenu por hover/foco no desktop e botão hambúrguer com aria-expanded no celular
-- Cartões com etiquetas, estados de botão (hover, active, focus-visible, disabled), modal com `<dialog>` e `prefers-reduced-motion`
-
-## Destaques técnicos — Experiência Prática I (HTML)
-
-- HTML5 semântico: `header`, `nav`, `main`, `section`, `article`, `aside`, `footer` e `address`
-- Hierarquia de títulos com um único `h1` por página, sem pular níveis
-- Formulário com `fieldset`/`legend` e tipos de input HTML5
-- Imagem com `<picture>` em três formatos e texto alternativo descritivo
-- HTML validado no [W3C Nu Html Checker](https://validator.w3.org/nu/) sem erros nem avisos, inclusive o HTML gerado pelo JavaScript em cada rota
+---
 
 Autor: Windemberg Novais

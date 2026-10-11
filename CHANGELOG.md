@@ -4,6 +4,14 @@ Todas as mudanças relevantes do projeto. O formato segue o [Keep a Changelog](h
 
 ## [Não lançado]
 
+## [1.1.1] — 2026-10-11
+
+### Adicionado
+- Minificação do HTML no build de produção.
+
+### Corrigido
+- Razões de contraste citadas em comentários do CSS.
+
 ## [1.1.0] — 2026-10-11
 
 ### Adicionado

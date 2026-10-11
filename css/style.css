@@ -156,7 +156,9 @@ body {
 }
 
 .cabecalho { grid-area: cabecalho; }
-main { grid-area: conteudo; }
+/* O conteúdo da SPA é injetado pelo JavaScript depois do primeiro desenho. Sem altura
+   mínima, o rodapé aparece no topo e é empurrado para baixo (CLS de 0,56 no Lighthouse). */
+main { grid-area: conteudo; min-height: 100vh; }
 .rodape { grid-area: rodape; }
 
 /* Base (< 576px): celular, todo item ocupa as 12 colunas. */

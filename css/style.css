@@ -3,7 +3,8 @@
    Organização: 1. Design system (tokens)  2. Base  3. Layout (Grid)
    4. Componentes (Flexbox)  5. Feedback  6. Utilitários
    Nomenclatura dos componentes: BEM (bloco__elemento--modificador)
-   Breakpoints (mobile-first): md >= 768px (tablet) | lg >= 1024px (desktop)
+   Breakpoints (mobile-first, min-width): sm 576px | md 768px | lg 1024px |
+   xl 1280px | xxl 1440px
    ========================================================================== */
 
 /* 1. DESIGN SYSTEM ---------------------------------------------------------- */
@@ -53,6 +54,7 @@
   --esp-5: 2rem;     /* 32px */
   --esp-6: 3rem;     /* 48px */
   --esp-7: 4rem;     /* 64px */
+  --esp-8: 6rem;     /* 96px */
 
   /* Forma, profundidade e movimento */
   --raio: 8px;
@@ -138,13 +140,36 @@ address { font-style: normal; }
   gap: var(--esp-4);
 }
 
-/* No celular, todo item ocupa as 12 colunas. */
+/* Macro layout da página: cabeçalho, conteúdo e rodapé.
+   A linha 1fr empurra o rodapé para o fim mesmo em páginas curtas. */
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "cabecalho"
+    "conteudo"
+    "rodape";
+  min-height: 100vh;
+}
+
+.cabecalho { grid-area: cabecalho; }
+main { grid-area: conteudo; }
+.rodape { grid-area: rodape; }
+
+/* Base (< 576px): celular, todo item ocupa as 12 colunas. */
 .grade > * { grid-column: span 12; }
 
 .secao { padding-block: var(--esp-6); }
 .secao--alt { background: var(--cor-fundo-alt); }
 .secao__intro { max-width: 65ch; }
 
+/* Breakpoint 1 — 576px: celular grande e celular deitado */
+@media (min-width: 576px) {
+  .container { padding-inline: var(--esp-4); }
+  .grade > .col-sm-6 { grid-column: span 6; }
+}
+
+/* Breakpoint 2 — 768px: tablet (o menu deixa de ser hambúrguer) */
 @media (min-width: 768px) {
   .container { padding-inline: var(--esp-5); }
   .grade > .col-md-4 { grid-column: span 4; }
@@ -152,15 +177,31 @@ address { font-style: normal; }
   .grade > .col-md-8 { grid-column: span 8; }
 }
 
+/* Breakpoint 3 — 1024px: notebook e desktop */
 @media (min-width: 1024px) {
   .grade { gap: var(--esp-5); }
-  .grade > .col-lg-3 { grid-column: span 3; }
   .grade > .col-lg-4 { grid-column: span 4; }
   .grade > .col-lg-5 { grid-column: span 5; }
   .grade > .col-lg-6 { grid-column: span 6; }
   .grade > .col-lg-7 { grid-column: span 7; }
   .grade > .col-lg-8 { grid-column: span 8; }
   .secao { padding-block: var(--esp-7); }
+}
+
+/* Breakpoint 4 — 1280px: desktop largo */
+@media (min-width: 1280px) {
+  :root { --largura-max: 1200px; }
+  .grade > .col-xl-4 { grid-column: span 4; }
+  .grade > .col-xl-5 { grid-column: span 5; }
+  .grade > .col-xl-7 { grid-column: span 7; }
+  .grade > .col-xl-8 { grid-column: span 8; }
+}
+
+/* Breakpoint 5 — 1440px: monitor panorâmico */
+@media (min-width: 1440px) {
+  :root { --largura-max: 1320px; }
+  .grade { gap: var(--esp-6); }
+  .secao { padding-block: var(--esp-8); }
 }
 
 /* 4. COMPONENTES ----------------------------------------------------------- */

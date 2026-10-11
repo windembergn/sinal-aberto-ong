@@ -26,7 +26,7 @@ O Sinal Aberto é uma ONG fictícia que oferece uma trilha de qualificação em 
 ## Destaques técnicos — Experiência Prática II (CSS3)
 
 - Design system em variáveis CSS: 16 cores com contraste medido (WCAG AA), 5 níveis tipográficos em escala 1,25 e espaçamentos modulares de base 8px
-- Grid de 12 colunas mobile-first com breakpoints em 768px e 1024px
+- Grid de 12 colunas mobile-first com 5 breakpoints (576, 768, 1024, 1280 e 1440px) e macro layout com grid-template-areas
 - Flexbox nos componentes internos: cabeçalho, menu, cartões, botões, opções do formulário e rodapé
 - Menu responsivo: submenu por hover/foco no desktop e botão hambúrguer com aria-expanded no celular
 - Cartões com etiquetas, hover e botão alinhado ao rodapé

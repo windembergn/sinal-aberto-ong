@@ -144,6 +144,9 @@ address { font-style: normal; }
    A linha 1fr empurra o rodapé para o fim mesmo em páginas curtas. */
 body {
   display: grid;
+  /* minmax(0, 1fr): sem isso a coluna "auto" cresce até o min-content dos campos
+     do formulário e a página rola na horizontal em 320px (WCAG 1.4.10). */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "cabecalho"
@@ -336,6 +339,8 @@ main { grid-area: conteudo; }
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  /* Ao abrir, visibility muda na hora: um Tab rápido não pula os links do submenu */
+  transition: opacity var(--transicao), transform var(--transicao), visibility 0s;
 }
 
 /* WCAG 1.4.13: conteúdo que aparece no hover/foco precisa poder ser dispensado.

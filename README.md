@@ -38,6 +38,7 @@ Projeto das Experiências Práticas I a IV da disciplina de Desenvolvimento Fron
 - Validação de consistência: dígitos verificadores do CPF, idade mínima de 16 anos, celular com 9 e horas semanais obrigatórias só para voluntários.
 - Dados persistidos no `localStorage`; o CPF nunca é salvo no rascunho e fica mascarado nos cadastros.
 - Layout responsivo de 320px a monitores panorâmicos, com menu hambúrguer no celular.
+- Modos de cor **Automático**, **Claro**, **Escuro** e **Alto contraste**, escolhidos no menu e lembrados entre visitas.
 
 ## Tecnologias
 
@@ -85,7 +86,7 @@ A versão em `dist/` também pode ser aberta com dois cliques em `dist/html/inde
 
 | Comando | O que faz |
 |---|---|
-| `npm test` | Roda os 18 testes automatizados |
+| `npm test` | Roda os 21 testes automatizados |
 | `npm run build` | Gera a versão otimizada em `dist/` e imprime o relatório de tamanhos |
 | `npm run preview` | Serve `dist/` localmente |
 
@@ -112,9 +113,10 @@ A versão em `dist/` também pode ser aberta com dois cliques em `dist/html/inde
 │   │   ├── armazenamento.js   localStorage: rascunho e cadastros
 │   │   ├── grafico.js         integração com Chart.js
 │   │   ├── mascaras.js        máscaras de CPF, telefone e CEP
-│   │   └── menu.js            menu hambúrguer, submenu e rota atual
+│   │   ├── menu.js            menu hambúrguer, submenu e rota atual
+│   │   └── tema.js            modos de cor (automático, claro, escuro, alto contraste)
 │   ├── views/                 uma tela por arquivo: { titulo, render(), montar() }
-│   └── tests/                 testes de validação, armazenamento, templates e gráfico
+│   └── tests/                 testes de validação, armazenamento, templates, gráfico e contraste
 ├── scripts/build.mjs          build de produção
 ├── CHANGELOG.md               histórico de versões
 └── CONTRIBUTING.md            GitFlow, padrão de commits e checklist de PR
@@ -126,7 +128,7 @@ A versão em `dist/` também pode ser aberta com dois cliques em `dist/html/inde
 npm test
 ```
 
-18 testes com `node:test` cobrem as partes sem DOM: validação (CPF real e falso, idade no limite, regra cruzada das horas), armazenamento com um `localStorage` falso (incluindo armazenamento bloqueado), escape de HTML nos templates e contagem do gráfico.
+21 testes com `node:test` cobrem as partes sem DOM: validação (CPF real e falso, idade no limite, regra cruzada das horas), armazenamento com um `localStorage` falso (incluindo armazenamento bloqueado), escape de HTML nos templates, contagem do gráfico e o **contraste WCAG AA das cores dos três temas**, lidas direto do `style.css`.
 
 Verificações feitas na versão 1.0.0:
 
@@ -142,6 +144,7 @@ Meta: **WCAG 2.1 nível AA**.
 - **Teclado:** todo o site funciona com Tab, Shift+Tab, Enter e Esc; link "Pular para o conteúdo"; foco sempre visível; Esc fecha o submenu e o menu mobile.
 - **Leitores de tela:** a cada troca de rota, o título da página muda, o foco vai para o `h1` e uma região `aria-live` anuncia a página; erros ligados aos campos por `aria-describedby` e `aria-invalid`; mensagens de status com `role="status"`.
 - **Visual:** contraste medido de todas as cores (texto ≥ 4,5:1, componentes ≥ 3:1); erros com ícone e texto, não só cor; sem rolagem horizontal em 320px; respeito a `prefers-reduced-motion`.
+- **Modos de cor:** o seletor "Tema" alterna entre Automático (segue `prefers-color-scheme` e `prefers-contrast` do sistema), Claro, Escuro e Alto contraste. Os temas só redefinem as variáveis do design system; os 22 pares de cores de cada tema são verificados por teste automatizado. No modo de cores forçadas do Windows (`forced-colors`), barras e etiquetas ganham borda.
 
 ## Build e deploy
 
@@ -185,6 +188,7 @@ Commits seguem o padrão [Conventional Commits](https://www.conventionalcommits.
 | 0.2.0 | II — CSS3 | Design system, grid de 12 colunas, Flexbox, menu responsivo e componentes de feedback |
 | 0.3.0 | III — JavaScript | SPA, templates, validação de consistência, localStorage, Chart.js e testes |
 | 1.0.0 | IV — Produção | GitFlow, acessibilidade WCAG 2.1 AA, build otimizado e deploy contínuo |
+| 1.1.0 | IV — Produção | Modos escuro e alto contraste, teste automatizado de contraste |
 
 Veja o [CHANGELOG](CHANGELOG.md) para o detalhamento de cada versão.
 

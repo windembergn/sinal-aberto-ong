@@ -2,6 +2,7 @@
 // Cada área de funcionalidade fica no seu módulo (js/modules) e cada tela na sua view (js/views).
 
 import { iniciarMenu } from './modules/menu.js';
+import { iniciarTema } from './modules/tema.js';
 import { iniciarRoteador } from './modules/roteador.js';
 import { inicio } from './views/inicio.js';
 import { projetos } from './views/projetos.js';
@@ -10,6 +11,7 @@ import { cadastros } from './views/cadastros.js';
 import { naoEncontrada } from './views/nao-encontrada.js';
 
 iniciarMenu();
+iniciarTema();
 
 // O "pular para o conteúdo" não pode alterar o hash (o roteador entenderia como rota):
 // move o foco direto para o <main>.

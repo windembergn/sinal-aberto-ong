@@ -1,6 +1,7 @@
 import { armazenamento } from '../modules/armazenamento.js';
 import { escapar, etiqueta, formatarData } from '../modules/templates.js';
-import { criarGraficoTipos, atualizarGraficoTipos, contarPorTipo, ROTULOS_TIPO } from '../modules/grafico.js';
+import { criarGraficoTipos, atualizarGraficoTipos, aplicarCoresDoTema, contarPorTipo, ROTULOS_TIPO } from '../modules/grafico.js';
+import { EVENTO_TEMA } from '../modules/tema.js';
 
 const ETIQUETAS = {
   doador: { texto: 'Doador', tipo: 'sucesso' },
@@ -82,6 +83,8 @@ export const cadastros = {
     let idPendente = null;
     let grafico = null;
     let desmontado = false;
+    const recolorir = () => grafico && aplicarCoresDoTema(grafico);
+    document.addEventListener(EVENTO_TEMA, recolorir);
 
     // Biblioteca externa carregada sob demanda. Se o usuário sair da tela antes do
     // download terminar, o gráfico não é criado num canvas que já saiu do DOM.
@@ -123,6 +126,7 @@ export const cadastros = {
     // Ao trocar de rota, libera o canvas e os listeners internos do Chart.js.
     return () => {
       desmontado = true;
+      document.removeEventListener(EVENTO_TEMA, recolorir);
       grafico?.destroy();
     };
   },

@@ -21,10 +21,31 @@ export function iniciarMenu() {
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navegacao.dataset.aberto === 'true') {
+    if (e.key !== 'Escape') return;
+
+    // Submenu aberto por hover ou foco (desktop): Esc fecha e devolve o foco ao item pai.
+    const itemComSubmenu = document.activeElement?.closest('.menu__item') ?? document.querySelector('.menu__item:hover');
+    const submenu = itemComSubmenu?.querySelector('.submenu');
+    const submenuFlutuante = submenu && getComputedStyle(submenu).position === 'absolute';
+    if (submenuFlutuante && !itemComSubmenu.hasAttribute('data-submenu-fechado')) {
+      itemComSubmenu.setAttribute('data-submenu-fechado', '');
+      itemComSubmenu.querySelector('.menu__link').focus();
+      return;
+    }
+
+    if (navegacao.dataset.aberto === 'true') {
       definirMenu(false);
       botaoMenu.focus();
     }
+  });
+
+  // O submenu volta a funcionar quando o foco ou o mouse saem do item.
+  navegacao.querySelectorAll('.menu__item').forEach((item) => {
+    const reabilitar = () => item.removeAttribute('data-submenu-fechado');
+    item.addEventListener('mouseleave', reabilitar);
+    item.addEventListener('focusout', (e) => {
+      if (!item.contains(e.relatedTarget)) reabilitar();
+    });
   });
 }
 

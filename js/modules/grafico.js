@@ -43,7 +43,9 @@ export async function criarGraficoTipos(canvas, lista) {
       datasets: [{
         label: 'Cadastros',
         data: Object.values(contagem),
-        backgroundColor: [corDoTema('--cor-sucesso'), corDoTema('--cor-primaria'), corDoTema('--cor-secundaria')],
+        // Cores com contraste mínimo de 3:1 contra o fundo branco (WCAG 1.4.11):
+        // o amarelo do tema (2,01:1) foi trocado pelo tom de aviso (5,93:1).
+        backgroundColor: [corDoTema('--cor-sucesso'), corDoTema('--cor-primaria'), corDoTema('--cor-aviso')],
         borderRadius: 6,
       }],
     },

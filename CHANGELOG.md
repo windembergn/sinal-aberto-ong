@@ -4,6 +4,8 @@ Todas as mudanças relevantes do projeto. O formato segue o [Keep a Changelog](h
 
 ## [Não lançado]
 
+## [1.0.0] — 2026-10-11 — Experiência Prática IV
+
 ### Adicionado
 - Build de produção com esbuild (bundle único minificado, com sourcemap), sharp e SVGO.
 - Workflows de CI (testes e build em PRs) e de deploy contínuo no GitHub Pages.
